@@ -64,7 +64,6 @@ fn play_with_text() {
     println!("Extracts {}: {:?}, {:?}", city3, extract2, extract3);
 
     analyze_extract(extract2);
-    analyze_extract(extract2);
     analyze_extract(extract3);
     analyze_extract(city3.get(..2));
     analyze_extract(city.get(..3));
