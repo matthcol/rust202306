@@ -2,7 +2,6 @@
 // You can test this code by clicking the "Run" button over there ->
 // or if you prefer to use your keyboard, you can use the "Ctrl + Enter"
 // shortcut.
-
 fn hello() {
     // Print text to the console.
     println!("Hello World!");
@@ -10,7 +9,7 @@ fn hello() {
 }
 
 fn play_with_integers() {
-    let n1 = 2_000_000_000;
+    let mut n1 = 2_000_000_000;
     let n2 = 255u8;
     let n3: i128 = 16_000_000_000_000_000_000_000_000_000_000_000_005;
     let n4: f64 = n3 as f64; // casting
@@ -20,6 +19,8 @@ fn play_with_integers() {
     println!("n2 = {}", n2);
     println!("Numbers: {0}, {1}, {2}, {3}, {4}, {5}", 
             n1, n2, n3, n4, n5, n6);
+    n1 += 1;
+    println!("n1 = {n1}");
 }
 
 fn analyze_extract(extract: Option<&str>) {
@@ -76,5 +77,4 @@ fn main() {
   hello();
   play_with_integers(); 
   play_with_text(); 
-    
 }
