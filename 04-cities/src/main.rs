@@ -147,8 +147,18 @@ fn play_with_cities() {
     }
 
     // y a t il une ville "small"
+    let any_small = cities.iter().any(City::is_small);
+    println!("Is there a small city: {any_small}");
 
     // est ce que toutes les villes du japon sont grandes
+    let all_big_in_japan = cities.iter()
+            .filter(|c| c.country == "Japan")
+            .all(|c| !c.is_small() && !c.is_medium());
+    println!("In Japan, all cities are big: {all_big_in_japan}");
+
+    for (i, city) in cities.iter().enumerate() {
+        println!(" - {i}: {city}")
+    }
 }
 
 fn main() {
