@@ -37,6 +37,44 @@ impl PartialEq for City {
 
 impl Eq for City {}
 
+// impl From<&str> for City {
+//     /**
+//      * format "csv": name,population,country
+//      */
+//     fn from(value: &str) -> Self {
+//         let fields: Vec<&str> = value.split(',').collect();
+        
+//         City{
+//             name: String::from(fields[0]), 
+//             population: u32::from_str_radix(fields[1], 10)
+//                     .ok().unwrap(), 
+//             country: String::from(fields[2])
+//         }
+//     }
+// }
+
+impl TryFrom<&str> for City {
+    type Error = &'static str;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        let fields: Vec<&str> = value.split(',').collect();
+        if fields.len() != 3 {
+            Err("Wrong number of fields")
+        } else {
+            match u32::from_str_radix(fields[1], 10) {
+                Ok(population) => Ok(
+                    City{
+                    name: fields[0].to_string(), 
+                    population: population,
+                    country: fields[2].to_string()
+                    }
+                ),
+                Err(_) => Err("Population is not an integer")
+            }
+        }
+    }
+}
+
 impl City {
     pub fn new(name: String, population: u32, country: String) -> City {
         City {
@@ -61,3 +99,61 @@ impl City {
     }
 }
 
+
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+
+//     #[test]
+//     fn test_from_ref_str() {
+//         let text = "Toulouse,470000,France";
+//         let city = City::from(text);
+//         assert_eq!(city.name, "Toulouse");
+//         assert_eq!(city.population, 470_000);
+//         assert_eq!(city.country, "France");
+//     }
+
+//     #[test]
+//     #[should_panic]
+//     fn test_from_ref_str_ko_pop_not_integer() {
+//         let text = "Toulouse,big,France";
+//         let _ = City::from(text);
+//     }
+
+//     #[test]
+//     #[should_panic]
+//     fn test_from_ref_str_ko_wrong_number_fields() {
+//         let text = "Toulouse,470000";
+//         let _ = City::from(text);
+//     }
+// }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_try_from_ref_str() {
+        let text = "Toulouse,470000,France";
+        let result =  City::try_from(text);
+        assert!(result.is_ok());
+        let city = result.ok().unwrap();
+        assert_eq!(city.name, "Toulouse");
+        assert_eq!(city.population, 470_000);
+        assert_eq!(city.country, "France");
+    }
+
+    #[test]
+    fn test_try_from_ref_str_ko_pop_not_integer() {
+        let text = "Toulouse,big,France";
+        let result =  City::try_from(text);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_try_from_ref_str_ko_wrong_number_fields() {
+        let text = "Toulouse,470000";
+        let result =  City::try_from(text);
+        assert!(result.is_err());
+    }
+}
