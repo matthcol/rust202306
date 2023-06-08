@@ -118,10 +118,33 @@ fn play_with_cities() {
     for (i, city) in cities.iter().enumerate() {
         println!(" - {i}: {city}")
     }
-    city::output::print_cities(&cities);
+    city::output::print_cities_lines(&cities);
+    city::output::println_vector_cities(&cities);
+    
+    let cities2 = vec![City::new(
+        String::from("京都市"), 
+        1_460_000u32, 
+        String::from("Japan")
+    )];
+    city::output::println_vector_cities(&cities2);
+
+    let cities3 = Vec::<City>::new();
+    city::output::println_vector_cities(&cities3);
+}
+
+fn play_with_eq() {
+    let c1 = City::new("Toulouse".to_string(), 470_000, "France".to_string());
+    let c2 = City::new("Toulouse".to_string(), 470_000, "France".to_string());
+    let c3 = City::new("Toulouse".to_string(), 470_001, "France".to_string());
+    let c4 = City::new("TOULOUSE".to_string(), 470_000, "FrAnCe".to_string());
+    assert_eq!(c1, c2); // check if c1 == c2
+    // assert_ne!(c1, c3); // check if c1 != c3
+    assert_eq!(c1, c3);
+    assert_eq!(c1, c4);
 }
 
 fn main() {
     play_with_one_city();
     play_with_cities();
+    play_with_eq();
 }

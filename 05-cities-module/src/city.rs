@@ -6,6 +6,7 @@ use std::ops::AddAssign;
 
 
 #[derive(Debug)]
+// #[derive(Debug, PartialEq, Eq)] // def auto de == et != field by field
 pub struct City{
     pub name: String,
     pub population: u32,
@@ -19,11 +20,22 @@ impl fmt::Display for City {
     }
 }
 
+// impl +=
 impl AddAssign<u32> for City {
     fn add_assign(&mut self, rhs: u32) {
         self.population += rhs;
     }
 }
+
+// impl ==, !=
+impl PartialEq for City {
+    fn eq(&self, other: &Self) -> bool {
+        return (self.name.to_lowercase() == other.name.to_lowercase())
+            && (self.country.to_lowercase() == other.country.to_lowercase())
+    }
+}
+
+impl Eq for City {}
 
 impl City {
     pub fn new(name: String, population: u32, country: String) -> City {
