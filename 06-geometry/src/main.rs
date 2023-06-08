@@ -39,7 +39,7 @@ fn play_with_measurable() {
 // calculer la surface totale d'objets mesurables
 // NB: ref lifetime
 // https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html
-fn sum_area<'a, I>(mut iterator: I) -> f64
+fn sum_area_circle<'a, I>(mut iterator: I) -> f64
 where I: Iterator<Item=&'a Circle>
 {
     let mut sum = 0.0;
@@ -49,10 +49,26 @@ where I: Iterator<Item=&'a Circle>
     sum
 }
 
-fn sum_area2<'a, I>(iterator: I) -> f64
+fn sum_area_circle2<'a, I>(iterator: I) -> f64
 where I: Iterator<Item=&'a Circle>
 {
     iterator.map(Circle::area).sum()
+}
+
+fn sum_area<'a, T>(iterator: impl Iterator<Item=&'a T>) -> f64
+where 
+    T: Measurable2d + 'a,
+{
+    iterator.map(Measurable2d::area).sum()
+}
+
+
+fn sum_area2<'a, I, T>(iterator: I) -> f64
+where 
+    I: Iterator<Item=&'a T>,
+    T: Measurable2d + 'a,
+{
+    iterator.map(Measurable2d::area).sum()
 }
 
 fn play_with_sum_area() {
@@ -70,10 +86,16 @@ fn play_with_sum_area() {
             radius: 9.0
         }   
     ];
-    let s = sum_area(circles.iter());
+    let s = sum_area_circle(circles.iter());
     println!("Total area: {s}"); 
 
-    let s = sum_area2(circles.iter());
+    let s = sum_area_circle2(circles.iter());
+    println!("Total area: {s}");
+
+    let s = sum_area_circle2(circles[..2].iter());
+    println!("Total area: {s}");
+
+    let s = sum_area(circles[..2].iter());
     println!("Total area: {s}");
 
     let s = sum_area2(circles[..2].iter());
