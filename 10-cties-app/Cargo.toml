@@ -1,0 +1,12 @@
+[package]
+name = "cities_app"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# See https://doc.rust-lang.org/rust-by-example/cargo/deps.html
+[dependencies]
+cities = { path="../09-cities-lib" }
+# cities = { git="https://github.com/matthcol/cities_lib_rust.git" }
+# cities = "0.1.0" (not mine, another one published on crates.io)
