@@ -30,8 +30,8 @@ fn analyze_cities(cities: &Vec<City>) {
 
         }
         match city {
-            City{name, population: population @ 0..=99_999u32, country: _} => 
-                    println!("Small city[{population}]: {name}"),
+            City{name, population: pop @ 0..=99_999u32, country: _} => 
+                    println!("Small city[{pop}]: {name}"),
             City{name, population: 100_000u32..=999_999u32, ..} => 
                     println!("Medium city: {name}"),
             City{country, name, ..} if country == "Japan" => 
